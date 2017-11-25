@@ -1,5 +1,6 @@
 package hello;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,12 @@ public class SimpleBookRepository implements BookRepository {
     public Book getByIsbn(String isbn) {
         simulateSlowService();
         return new Book(isbn, "Some book");
+    }
+
+    @Override
+    @CacheEvict(cacheNames = "books", allEntries = true)
+    public void clearCache() {
+        //do nothing
     }
 
     // Don't do this at home
